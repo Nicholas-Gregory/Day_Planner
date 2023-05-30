@@ -1,6 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 function displayHours(element) {
   // Construct HTML elements for every hour
   for (var i = 9; i < 18; i++) {
@@ -59,10 +56,6 @@ function displayText(element) {
 }
 
 $(function () {
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-
   // Display current day
   $("#currentDay").text(dayjs().format("dddd MMMM DD"));
 
