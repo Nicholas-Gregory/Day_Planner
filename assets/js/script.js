@@ -2,10 +2,8 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 function displayHours(element) {
-  var divs = [];
-
   // Construct HTML elements for every hour
-  for (var i = 0; i < 24; i++) {
+  for (var i = 9; i < 18; i++) {
     var hour = i;
     var outerDiv = $("<div>").addClass("row time-block")
                              .attr("id", String(i));
@@ -18,14 +16,16 @@ function displayHours(element) {
     if (hour === 0) {
       hour = 12;
     }
+
+    // Render time slots
     var innerDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3")
-                             .text(hour + amPm);
+                            .text(hour + amPm);
     var textArea = $("<textarea>").addClass("col-8 col-md-10 description")
                                   .attr("rows", "3");    
     var btn = $("<button>").addClass("btn saveBtn col-2 col-md-1")
-                           .attr("aria-label", "save");
+                          .attr("aria-label", "save");
     var icon = $("<i>").addClass("fas fa-save")
-                       .attr("aria-hidden", "true");
+                      .attr("aria-hidden", "true");
 
     // Append the elements
     btn.append(icon);
@@ -41,7 +41,7 @@ function colorHours(element, time) {
     var hourEl = $(this);
     var hour = Number(hourEl.attr("id"));
 
-    // Check agains dayjs time value to see if it is past, present or future.
+    // Check against dayjs time value to see if it is past, present or future.
     if (hour < time.hour()) {
       hourEl.addClass("past");
     } else if (hour > time.hour()) {
@@ -51,6 +51,7 @@ function colorHours(element, time) {
     }
   })
 }
+
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -71,7 +72,22 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
+  // Display current day
+  $("#currentDay").text(dayjs().format("dddd MMMM DD"));
+
+  // Render time slots
   var hours = $("#hours");
   displayHours(hours);
   colorHours(hours, dayjs());
+
+  // Add event listeners to save buttons
+  hours.children().each(function() {
+    $(this).children("button").on("click", function() {
+      var text = $(this).siblings("textarea").val();
+      var id = $(this).parent().attr("id");
+
+      localStorage.setItem(String(id), text);
+    })
+  })
 });
