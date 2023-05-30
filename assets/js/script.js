@@ -73,7 +73,7 @@ $(function () {
       var text = $(this).siblings("textarea").val();
       var id = $(this).parent().attr("id");
 
-      localStorage.setItem(String(id), text);
+      localStorage.setItem(id, text);
     })
   });
 });
